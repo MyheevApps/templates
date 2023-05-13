@@ -3,12 +3,47 @@
  */
 package Templates;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
+public class App {
+    
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        
+    }
+    
+    private static void saveDataToFile(HashMap<String, Object> people) {
+        try {
+            FileOutputStream file = new FileOutputStream(new File("myFile.txt"));
+            ObjectOutputStream ob = new ObjectOutputStream(file);
+            ob.writeObject(people);
+            ob.close();
+            file.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
+    private static HashMap<String, Object> loadDataFromFile() {
+        HashMap<String, Object> data = null;
+                
+        try {
+            FileInputStream file = new FileInputStream(new File("myFile.txt"));
+            ObjectInputStream oi = new ObjectInputStream(file);
+            data = (HashMap<String, Object>) oi.readObject();
+            oi.close();
+            file.close();
+            
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        
+        return data;
     }
 }
